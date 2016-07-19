@@ -681,6 +681,8 @@ transform_from_wgs_to_gcj(Location(Fort.Latitude, Fort.Longitude))
         except AttributeError:
             break
 
+    file_log = open('./pokemon.log', 'a+')
+
     for poke in visible:
         pokeid = str(poke.pokemon.PokemonId)
         pokename = pokemonsJSON[pokeid]
@@ -706,6 +708,11 @@ transform_from_wgs_to_gcj(Location(Fort.Latitude, Fort.Longitude))
             "id": poke.pokemon.PokemonId,
             "name": pokename
         }
+
+        file_log.write(json.dumps({"time": time.time(), "SpawnPointId": poke.SpawnPointId, "Latitude": poke.Latitude, "Longitude": poke.Longitude, "TimeTillHiddenMs": poke.TimeTillHiddenMs, "PokemonId": poke.pokemon.PokemonId, "PokemonName": pokename}))
+        file_log.write('\n')
+
+    file_log.close()
 
 def clear_stale_pokemons():
     current_time = time.time()
